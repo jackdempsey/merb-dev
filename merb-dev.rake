@@ -1,7 +1,3 @@
-windows = (PLATFORM =~ /win32|cygwin/) rescue nil
-sudo = windows ? "" : "sudo"
-repos = %w[core more plugins].collect {|r| "merb-#{r}"}
-
 # Usage: sake merb:clone
 desc "Clone a copy of all 3 of the Merb repositories"
 task 'merb:clone' do
@@ -12,7 +8,7 @@ task 'merb:clone' do
   require 'fileutils'
   mkdir "merb"
   cd "merb"
-  repos.each do |r|
+  %w[core more plugins].collect {|r| "merb-#{r}"}.each do |r|
     sh "git clone git://github.com/wycats/#{r}.git"
   end
 end
@@ -20,6 +16,7 @@ end
 # Usage: sake merb:update
 desc "Update your local Merb repositories.  Run from inside the top-level merb directory."
 task 'merb:update' do
+  repos = %w[core more plugins].collect {|r| "merb-#{r}"}
   repos.each do |r|
     unless File.exists?(r)
       puts "#{r} missing ... did you use merb:clone to set this up?"
@@ -38,6 +35,8 @@ end
 # Usage: sake merb:gems:wipe
 desc "Uninstall all RubyGems related to Merb"
 task 'merb:gems:wipe' do
+  windows = (PLATFORM =~ /win32|cygwin/) rescue nil
+  sudo = windows ? "" : "sudo"
   gems = %x[gem list merb]
   gems.split("\n").each do |line|
     next unless line =~ /^(merb[^ ]+)/
