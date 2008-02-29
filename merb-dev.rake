@@ -73,8 +73,9 @@ task 'merb:install' => ["merb:install:core", "merb:install:more"]
 # Usage: sake merb:sake:refresh
 desc "Remove and reinstall Merb sake recipes"
 task "merb:sake:refresh" do
-  sake_tasks = %w[clone update gems:wipe gems:refresh
-    install install:core install:more sake:refresh].collect {|t| "merb:#{t}"}
-  sh "sake -u #{sake_tasks.join(' ')}"
+  %w[clone update gems:wipe gems:refresh
+    install install:core install:more sake:refresh].each {|t|
+    sh "sake -u merb:#{t}"
+  }
   sh "sake -i http://merbivore.com/merb-dev.sake"
 end
