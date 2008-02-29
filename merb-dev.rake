@@ -49,7 +49,6 @@ end
 desc "Pull fresh copies of Merb and refresh all the gems"
 task 'merb:gems:refresh' => ["merb:update", "merb:install"]
 
-sake_tasks << "merb:install:core"
 # Usage: sake merb:install:core
 desc "Install merb-core"
 task 'merb:install:core' do
