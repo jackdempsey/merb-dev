@@ -1,7 +1,9 @@
 windows = (PLATFORM =~ /win32|cygwin/) rescue nil
 sudo = windows ? "" : "sudo"
 repos = %w[core more plugins].collect {|r| "merb-#{r}"}
+sake_tasks = []
 
+sake_tasks << "merb:clone"
 # Usage: sake merb:clone
 desc "Clone a copy of all 3 of the Merb repositories"
 task 'merb:clone' do
@@ -17,6 +19,7 @@ task 'merb:clone' do
   end
 end
 
+sake_tasks << "merb:update"
 # Usage: sake merb:update
 desc "Update your local Merb repositories.  Run from inside the top-level merb directory."
 task 'merb:update' do
@@ -35,6 +38,7 @@ task 'merb:update' do
   end
 end
 
+sake_tasks << "merb:gems:wipe"
 # Usage: sake merb:gems:wipe
 desc "Uninstall all RubyGems related to Merb"
 task 'merb:gems:wipe' do
@@ -45,10 +49,12 @@ task 'merb:gems:wipe' do
   end
 end
 
+sake_tasks << "merb:gems:refresh"
 # Usage: sake merb:gems:refresh
 desc "Pull fresh copies of Merb and refresh all the gems"
 task 'merb:gems:refresh' => ["merb:update", "merb:install"]
 
+sake_tasks << "merb:install:core"
 # Usage: sake merb:install:core
 desc "Install merb-core"
 task 'merb:install:core' do
@@ -57,6 +63,7 @@ task 'merb:install:core' do
   cd '..'
 end
 
+sake_tasks << "merb:install:more"
 # Usage: sake merb:install:more
 desc "Install merb-more"
 task 'merb:install:more' do
@@ -65,6 +72,15 @@ task 'merb:install:more' do
   cd '..'
 end
 
+sake_tasks << "merb:install:more"
 # Usage: sake merb:install
 desc "Install merb-core and merb-more"
 task 'merb:install' => ["merb:install:core", "merb:install:more"]
+
+sake_tasks << "merb:sake:refresh"
+# Usage: sake merb:sake:refresh
+desc "Remove and reinstall Merb sake recipes"
+task "merb:sake:refresh" do
+  sh "sake -u #{sake_tasks.join(' ')}"
+  sh "sake -i http://merbivore.com/merb-dev.sake"
+end
