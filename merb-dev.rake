@@ -3,7 +3,7 @@ sudo = windows ? "" : "sudo"
 repos = %w[core more plugins].collect {|r| "merb-#{r}"}
 
 # Usage: sake merb:clone
-desc "Clone a copy of all 3 of Merb's repositories"
+desc "Clone a copy of all 3 of the Merb repositories"
 task 'merb:clone' do
   if File.exists?("merb")
     puts "./merb already exists!"
