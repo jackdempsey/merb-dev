@@ -1,3 +1,6 @@
+windows = (PLATFORM =~ /win32|cygwin/) rescue nil
+sudo = windows ? "" : "sudo"
+
 # Usage: sake merb:clone
 desc "Clone a copy of all 3 of Merb's repositories"
 task 'merb:clone' do
@@ -30,5 +33,15 @@ task 'merb:update' do
     sh "git fetch"
     sh "git rebase origin/master"
     cd ".."
+  end
+end
+
+# Usage: sake merb:gems:wipe
+desc "Uninstall all RubyGems related to Merb"
+task 'merb:gems:wipe' do
+  gems = %x[gem list merb]
+  gems.split("\n").each do |line|
+    next unless line =~ /^(merb[^ ]+)/
+    sh "#{sudo} gem uninstall -a -i -x #{$1}"
   end
 end
