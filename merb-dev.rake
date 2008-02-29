@@ -45,6 +45,10 @@ task 'merb:gems:wipe' do
   end
 end
 
+# Usage: sake merb:gems:refresh
+desc "Pull fresh copies of Merb and refresh all the gems"
+task 'merb:gems:refresh' => ["merb:update", "merb:install"]
+
 # Usage: sake merb:install:core
 desc "Install merb-core"
 task 'merb:install:core' do
