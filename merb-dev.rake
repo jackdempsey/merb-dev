@@ -64,9 +64,17 @@ task 'merb:install:more' do
   cd '..'
 end
 
+# Usage: sake merb:install:plugins
+desc "Install merb-plugins"
+task 'merb:install:plugins' do
+  cd 'merb-plugins'
+  sh "rake install"
+  cd '..'
+end
+
 # Usage: sake merb:install
 desc "Install merb-core and merb-more"
-task 'merb:install' => ["merb:install:core", "merb:install:more"]
+task 'merb:install' => ["merb:install:core", "merb:install:more", "merb:install:plugins"]
 
 # Usage: sake merb:sake:refresh
 desc "Remove and reinstall Merb sake recipes"
