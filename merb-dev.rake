@@ -74,7 +74,7 @@ end
 
 # Usage: sake merb:install
 desc "Install merb-core and merb-more"
-task 'merb:install' => ["merb:install:core", "merb:install:more", "merb:install:plugins"]
+task 'merb:install' => ["merb:install:core", "merb:install:more"]
 
 # Usage: sake merb:sake:refresh
 desc "Remove and reinstall Merb sake recipes"
