@@ -40,7 +40,7 @@ task 'merb:gems:wipe' do
   gems = %x[gem list merb]
   gems.split("\n").each do |line|
     next unless line =~ /^(merb[^ ]+)/
-    sh "#{sudo} gem uninstall -a -i -x #{$1}"
+    sh "#{sudo} gem uninstall -a -I -x #{$1}"
   end
 end
 
