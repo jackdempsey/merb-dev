@@ -42,6 +42,7 @@ task 'merb:gems:wipe' do
     next unless line =~ /^(merb[^ ]+)/
     sh "#{sudo} gem uninstall -a -I -x #{$1}"
   end
+  sh "#{sudo} gem uninstall -a -I -x merb"
 end
 
 # Usage: sake merb:gems:refresh
