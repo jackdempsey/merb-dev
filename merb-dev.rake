@@ -37,7 +37,7 @@ desc "Uninstall all RubyGems related to Merb"
 task 'merb:gems:wipe' do
   windows = (PLATFORM =~ /win32|cygwin/) rescue nil
   sudo = windows ? "" : "sudo"
-  %w[ merb merb-core merb-more merb-plugins merb-action-args merb-assets merb-builder merb-cache merb-freezer merb-gen merb-haml merb-mailer merb-parts merb_activerecord merb_helpers merb_sequel merb_param_protection merb_test_unit merb_stories].each do |gem|
+  %w[ merb merb-core merb-more merb-action-args merb-assets merb-builder merb-cache merb-freezer merb-gen merb-haml merb-mailer merb-parts merb_activerecord merb_helpers merb_sequel merb_param_protection merb_test_unit merb_stories].each do |gem|
     sh "#{sudo} gem uninstall #{gem} --all --ignore-dependencies --executables; true"
   end
 end
