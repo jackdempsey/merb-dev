@@ -84,3 +84,8 @@ task "merb:sake:refresh" do
   sh "sake -i http://merbivore.com/merb-dev.sake"
 end
 
+
+desc "Remove these merb-dev sake tasks.  Including this one."
+task "merb:sake:uninstall" do
+  sh "sake -u merb:gems:wipe merb:clone merb:gems:refresh merb:install merb:install:core merb:install:more merb:install:plugins merb:sake:refresh merb:update merb:sake:uninstall"
+end
