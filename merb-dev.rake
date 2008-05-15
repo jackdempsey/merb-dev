@@ -23,7 +23,7 @@ task 'merb:update' do
       exit
     end
   end
-  
+
   repos.each do |r|
     cd r
     sh "git fetch"
@@ -37,17 +37,14 @@ desc "Uninstall all RubyGems related to Merb"
 task 'merb:gems:wipe' do
   windows = (PLATFORM =~ /win32|cygwin/) rescue nil
   sudo = windows ? "" : "sudo"
-  gems = %x[gem list merb]
-  gems.split("\n").each do |line|
-    next unless line =~ /^(merb[^ ]+)/
-    sh "#{sudo} gem uninstall -a -I -x #{$1}"
+  %w[ merb merb-core merb-more merb-plugins merb-action-args merb-assets merb-builder merb-cache merb-freezer merb-gen merb-haml merb-mailer merb-parts merb_activerecord merb_helpers merb_sequel merb_param_protection merb_test_unit merb_stories].each do |gem|
+    sh "#{sudo} gem uninstall #{gem} --all --ignore-dependencies --executables; true"
   end
-  sh "#{sudo} gem uninstall -a -I -x merb"
 end
 
 # Usage: sake merb:gems:refresh
-desc "Pull fresh copies of Merb and refresh all the gems"
-task 'merb:gems:refresh' => ["merb:update", "merb:install"]
+desc "Pull fresh copies of Merb, uninstall existing gems, and re-install all the gems"
+task 'merb:gems:refresh' => ["merb:gems:wipe", "merb:update", "merb:install"]
 
 # Usage: sake merb:install:core
 desc "Install merb-core"
@@ -74,8 +71,8 @@ task 'merb:install:plugins' do
 end
 
 # Usage: sake merb:install
-desc "Install merb-core and merb-more"
-task 'merb:install' => ["merb:install:core", "merb:install:more"]
+desc "Install merb-core, merb-more, and merb-plugins"
+task 'merb:install' => ["merb:install:core", "merb:install:more", "merb:install:plugins"]
 
 # Usage: sake merb:sake:refresh
 desc "Remove and reinstall Merb sake recipes"
@@ -86,3 +83,4 @@ task "merb:sake:refresh" do
   }
   sh "sake -i http://merbivore.com/merb-dev.sake"
 end
+
