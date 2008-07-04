@@ -27,6 +27,7 @@ task 'merb:update' do
   repos.each do |r|
     cd r
     sh "git fetch"
+    sh "git checkout master"
     sh "git rebase origin/master"
     cd ".."
   end
